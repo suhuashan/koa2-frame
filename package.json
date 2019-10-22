@@ -1,0 +1,25 @@
+{
+  "name": "koa2-frame",
+  "version": "1.0.0",
+  "description": "koa frame for project",
+  "main": "app.js",
+  "dependencies": {
+    "koa": "^2.10.0",
+    "koa-logger": "^3.2.1",
+    "moment": "^2.24.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/suhuashan/koa2-frame.git"
+  },
+  "author": "suhuashan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/suhuashan/koa2-frame/issues"
+  },
+  "homepage": "https://github.com/suhuashan/koa2-frame#readme"
+}
