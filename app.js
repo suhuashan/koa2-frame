@@ -5,13 +5,27 @@
  */
 
 const Koa = require('koa');
+const logger = require('./middlewares/logger');
+const PORT = 8000;
 
-const config = require('./config/port');
-const koa_logger = require('./middlewares/logger');
 
 const app = new Koa();
 
-app.use(koa_logger);
+app.on('error', (err, ctx) => {
+    logger.errLogger(ctx, err)
+    console.error('server error', err, ctx)
+});
 
-app.listen(config.SERVER_PORT);
-console.log(`The server is listening on the port ${config.SERVER_PORT}`);
+app.use(async(ctx, next) => {
+    const start = new Date()
+    await next()
+    const ms = new Date() - start
+    logger.resLogger(ctx, ms)
+});
+
+app.use(ctx => {
+    ctx.body = 'success';
+});
+
+app.listen(PORT);
+console.log(`The server is listening on the port ${PORT}`);
