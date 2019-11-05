@@ -14,7 +14,7 @@ const Book = model.book;
 
 const getArticleList = async (ctx) => {
     let data = await User.findAll({
-        includes: [{
+        include: [{
             model: Book
         }]
     })
