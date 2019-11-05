@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2019-10-28 12:40:48
- * @LastEditTime: 2019-10-28 12:52:11
+ * @LastEditTime: 2019-11-05 19:07:17
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \koa2-frame\db\model.js
@@ -15,10 +15,16 @@ let js_files = files.filter( (f) => {
     return f.endsWith(".js");
 },files);
 
-module.exports = {};
+let models = {};
 
 for(let f of js_files){
     console.log(`import model from file ${f}...`);
     let name = f.substring(0, f.length - 3);
-    module.exports[name] = require(__dirname + '/models/' + f);
+    models[name] = require(__dirname + '/models/' + f);
 }
+
+for (let key in models) {
+    models[key].associate && models[key].associate(models);
+}
+models['sequelize'] = db;
+module.exports = models;

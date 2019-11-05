@@ -1,7 +1,7 @@
 /*
  * @Author: suhuashan
  * @Date: 2019-10-22 12:48:13
- * @LastEditTime: 2019-11-04 21:44:08
+ * @LastEditTime: 2019-11-05 22:08:17
  */
 
 const Koa = require('koa');
@@ -12,6 +12,7 @@ const bodyParser = require('koa-bodyparser')
 const logger = require('./middlewares/logger');
 const isDev = require('./config/env');
 const routes = require('./routes');
+const { HttpException } = require('./middlewares/exception/http_exception');
 
 const PORT = 8000;
 const staticPath = './static';
