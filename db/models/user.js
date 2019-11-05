@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2019-10-31 19:07:19
- * @LastEditTime: 2019-10-31 19:10:14
- * @LastEditors: your name
+ * @LastEditTime: 2019-11-05 19:27:34
+ * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \koa2-frame\db\models\user.js
  */
@@ -10,15 +10,15 @@ var Sequelize = require("sequelize");
 var sequelize = require("../index.js");
 
 const User = sequelize.define(
-    "buyBookList",
+    "user",
     {
-        user_id: {
+        id: {
             primaryKey: true,
             type: Sequelize.INTEGER,
             autoIncrement: true
         },
-        user_name: Sequelize.STRING,
-        user_age: Sequelize.INTEGER
+        userName: Sequelize.STRING,
+        userAge: Sequelize.INTEGER,
     },
     {
         charset: 'utf8',
@@ -27,8 +27,8 @@ const User = sequelize.define(
     }
 );
 
-User.associate = function (models) {    
-
+User.associate = function (models) { 
+    models.user.hasMany(models.book);
 };
-
 module.exports = User;
+

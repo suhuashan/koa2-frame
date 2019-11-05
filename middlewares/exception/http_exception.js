@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2019-10-28 13:14:53
+ * @LastEditTime: 2019-11-05 22:08:47
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: \koa2-frame\middlewares\exception\http_exception.js
+ */
 
 class HttpException extends Error{
     constructor(msg='服务器异常',errorCode=10000, code=400){
@@ -54,7 +62,7 @@ class Forbbiden extends HttpException {
 }
 
 
-export {
+module.exports = {
     HttpException,
     ParameterException,
     Success,

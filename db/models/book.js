@@ -1,29 +1,24 @@
 /*
  * @Author: your name
  * @Date: 2019-10-31 19:07:27
- * @LastEditTime: 2019-11-04 11:46:44
- * @LastEditors: your name
+ * @LastEditTime: 2019-11-05 19:27:24
+ * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \koa2-frame\db\models\book.js
  */
 var Sequelize = require("sequelize");
 var sequelize = require("../index.js");
 
-module.exports = sequelize.define(
-    "buyBookList",
+const Book = sequelize.define(
+    "book",
     {
-        nid: {
+        id: {
             primaryKey: true,
             type: Sequelize.INTEGER,
             autoIncrement: true
         },
-        username: Sequelize.STRING(),
-        avatar: Sequelize.STRING(),
-        bookName: Sequelize.STRING(),
-        bookDesc: Sequelize.STRING(),
-        position: Sequelize.STRING(),
-        time: Sequelize.STRING(),
-        buyer: Sequelize.STRING()
+        bookName: Sequelize.STRING,
+        bookAuthor: Sequelize.STRING
     },
     {
         charset: 'utf8',
@@ -31,3 +26,10 @@ module.exports = sequelize.define(
         freezeTableName: true
     }
 );
+
+Book.associate = function (models) {
+    models.book.belongsTo(models.user);
+};
+
+module.exports = Book;
+
