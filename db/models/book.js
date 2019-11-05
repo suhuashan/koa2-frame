@@ -18,7 +18,8 @@ const Book = sequelize.define(
             autoIncrement: true
         },
         bookName: Sequelize.STRING,
-        bookAuthor: Sequelize.STRING
+        bookAuthor: Sequelize.STRING,
+        userId: Sequelize.INTEGER
     },
     {
         charset: 'utf8',
@@ -28,7 +29,10 @@ const Book = sequelize.define(
 );
 
 Book.associate = function (models) {
-    models.book.belongsTo(models.user);
+    models.book.belongsTo(models.user,{
+        foreignKey: 'userId',
+        targetKey: 'id'
+    });
 };
 
 module.exports = Book;
