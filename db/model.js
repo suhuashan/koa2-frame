@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2019-10-28 12:40:48
+ * @LastEditTime: 2019-10-28 12:52:11
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \koa2-frame\db\model.js
+ */
 const fs = require("fs");
 const db = require("./index.js");
 
@@ -14,7 +22,3 @@ for(let f of js_files){
     let name = f.substring(0, f.length - 3);
     module.exports[name] = require(__dirname + '/models/' + f);
 }
-
-module.exports.sync = () => {
-    db.sync();
-};

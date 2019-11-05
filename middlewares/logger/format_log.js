@@ -1,4 +1,10 @@
-
+/*
+ * @Author: suhuashan
+ * @Date: 2019-10-28 12:40:48
+ * @LastEditTime: 2019-11-04 12:46:09
+ * @LastEditors: Please set LastEditors
+ */
+//获取请求客户端ip
 function getClientIp (req) {
     return req.headers['x-forwarded-for'] ||
         req.connection.remoteAddress ||
@@ -6,8 +12,8 @@ function getClientIp (req) {
         req.connection.socket.remoteAddress;
 }
 
+// 判断是移动端还是pc端
 function isMobile (userAgent) {
-    // 判断是移动端还是pc端
     return /Mobile/.test(userAgent) ? 'Mobile' : 'PC';
 }
 
