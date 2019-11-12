@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2019-10-31 19:07:19
- * @LastEditTime: 2019-11-05 19:27:34
+ * @LastEditTime: 2019-11-12 19:16:15
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \koa2-frame\db\models\user.js
@@ -19,6 +19,7 @@ const User = sequelize.define(
         },
         userName: Sequelize.STRING,
         userAge: Sequelize.INTEGER,
+        password: Sequelize.STRING
     },
     {
         charset: 'utf8',

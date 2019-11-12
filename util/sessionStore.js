@@ -1,11 +1,11 @@
 /*
  * @Author: suhuashan
  * @Date: 2019-11-11 13:10:23
- * @LastEditTime: 2019-11-11 13:11:32
+ * @LastEditTime: 2019-11-12 14:36:21
  * @LastEditors: Please set LastEditors
  */
 function getSession(sid) {
-    return `sid:${sid}`
+    return `${sid}`
 }
 
 class sessionStore {
@@ -14,9 +14,11 @@ class sessionStore {
     }
 
     async get (sid) {
+
         let id = getSession(sid)
         let result = await this.client.get(id)
         if (!result) {
+            console.log('cookie无效');
             return null
         } else {
             try{
@@ -33,7 +35,7 @@ class sessionStore {
         try {
             let sessStr = JSON.stringify(value)
             if(ttl && typeof ttl === 'number') {
-                await this.client.set(id, sessStr, "EX", ttl)
+                await this.client.set(id, sessStr, "EX", 600)
             } else {
                 await this.client.set(id, sessStr)
             }

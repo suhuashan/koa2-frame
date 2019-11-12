@@ -1,10 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2019-11-04 13:10:04
- * @LastEditTime: 2019-11-11 21:35:51
+ * @LastEditTime: 2019-11-12 21:06:57
  * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \koa2-frame\controller\article.js
  */
 
 const { SuccessModel } = require('./response');
@@ -23,7 +21,6 @@ const getArticleList = async (ctx) => {
             model: Book
         }]
     })
-    ctx.session.user_id = data;
     ctx.body = new SuccessModel(data);
 }
 

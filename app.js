@@ -1,7 +1,7 @@
 /*
  * @Author: suhuashan
  * @Date: 2019-10-22 12:48:13
- * @LastEditTime: 2019-11-11 21:40:49
+ * @LastEditTime: 2019-11-12 21:30:25
  */
 
 const Koa = require('koa');
@@ -13,10 +13,10 @@ const cors = require('koa2-cors');
 const session = require('koa-session')
 
 const logger = require('./middlewares/logger');
+const login = require('./middlewares/login');
 const routes = require('./routes');
 const redis = require('./config/redis');
 const sessionStore = require('./util/sessionStore');
-// const sessionConfig = require('./config/session');
 
 const PORT = 8000;
 const staticPath = './static';
@@ -45,16 +45,18 @@ app.use(cors({
 // 使用session中间件
 app.keys = ['suhuashan']
 app.use(session({
-    key: 'koa:session',                     //cookie键名
-    maxAge: 12 * 60 * 60 * 1000,   // session的失效时间,设置为半天
-    store: new sessionStore(redis),
+    key: 'sid',                     //cookie键名
+    maxAge: 1000 * 60 * 10,         // session的失效时间,设置为5分钟
+    store: new sessionStore(redis), 
     signed: true
 }, app));
 
+//解析post请求参数中间件
 app.use(bodyParser({
     enableTypes:['json', 'form', 'text']
 }));
 
+//记录响应日志
 app.use(async(ctx, next) => {
     const start = new Date()
     await next()
@@ -62,19 +64,23 @@ app.use(async(ctx, next) => {
     logger.resLogger(ctx, ms)
 });
 
+//登录中间件
+app.use(async (ctx, next) => {
+    await login(ctx, next)
+});
 
+//静态资源中间件
 app.use(static(
     path.join( __dirname,  staticPath)
 ));
 
-
-
+//加载路由
 app.use(routes());
 
-// error-handling
+//异常处理（写入错误日志）
 app.on('error', (err, ctx) => {
-    logger.errLogger(ctx, err)
-    console.error('server error', err, ctx)
+    logger.errLogger(ctx, err);
+    console.error('server error', err, ctx);
 });
 
 app.listen(PORT);
