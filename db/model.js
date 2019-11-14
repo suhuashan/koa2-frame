@@ -1,11 +1,3 @@
-/*
- * @Author: your name
- * @Date: 2019-10-28 12:40:48
- * @LastEditTime: 2019-11-05 19:07:17
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \koa2-frame\db\model.js
- */
 const fs = require("fs");
 const db = require("./index.js");
 

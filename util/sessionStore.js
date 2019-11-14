@@ -1,9 +1,9 @@
-/*
- * @Author: suhuashan
- * @Date: 2019-11-11 13:10:23
- * @LastEditTime: 2019-11-12 14:36:21
- * @LastEditors: Please set LastEditors
+/**
+ * @description: redis的存储
  */
+
+const TTL = 1200;             //redis的有效时间，单位为秒，默认20分钟
+
 function getSession(sid) {
     return `${sid}`
 }
@@ -35,7 +35,7 @@ class sessionStore {
         try {
             let sessStr = JSON.stringify(value)
             if(ttl && typeof ttl === 'number') {
-                await this.client.set(id, sessStr, "EX", 600)
+                await this.client.set(id, sessStr, "EX", TTL)
             } else {
                 await this.client.set(id, sessStr)
             }

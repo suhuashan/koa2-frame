@@ -1,12 +1,3 @@
-/*
- * @Author: your name
- * @Date: 2019-11-12 19:36:59
- * @LastEditTime: 2019-11-12 21:05:44
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \koa2-frame\middlewares\login\index.js
- */
-
 const model = require('../../db/model');
 const User = model.user;
 

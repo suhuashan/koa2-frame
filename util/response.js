@@ -1,8 +1,3 @@
-/*
- * @Author: suhuashan
- * @Date: 2019-11-04 21:44:58
- * @LastEditTime: 2019-11-07 11:37:12
- */
 class BaseModel {
     constructor(data, message) {
         if (typeof data === 'string') {

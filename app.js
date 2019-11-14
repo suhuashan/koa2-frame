@@ -1,22 +1,18 @@
-/*
- * @Author: suhuashan
- * @Date: 2019-10-22 12:48:13
- * @LastEditTime: 2019-11-12 21:30:25
- */
-
 const Koa = require('koa');
 const path = require('path');
 const static = require('koa-static');
 const bodyParser = require('koa-bodyparser');
 const onerror = require('koa-onerror');
 const cors = require('koa2-cors');
-const session = require('koa-session')
+const session = require('koa-session');
+const views = require('koa-views');
 
 const logger = require('./middlewares/logger');
-const login = require('./middlewares/login');
+const upload = require('./middlewares/upload');
 const routes = require('./routes');
-const redis = require('./config/redis');
-const sessionStore = require('./util/sessionStore');
+const sessionConfig = require('./config/sessionConfig');
+const allowOrigin = require('./config/allowOrigin');
+
 
 const PORT = 8000;
 const staticPath = './static';
@@ -29,8 +25,7 @@ onerror(app);
 // 配置跨域资源共享
 app.use(cors({
     origin: function(ctx) {
-        const ALLOW_ORIGIN = ['http://localhost:8000', 'http://localhost:8080'];
-      if (ALLOW_ORIGIN.includes(ctx.request.header.origin)) {
+      if (allowOrigin.includes(ctx.request.header.origin)) {
         return ctx.request.header.origin;
       }
     },
@@ -44,12 +39,7 @@ app.use(cors({
 
 // 使用session中间件
 app.keys = ['suhuashan']
-app.use(session({
-    key: 'sid',                     //cookie键名
-    maxAge: 1000 * 60 * 10,         // session的失效时间,设置为5分钟
-    store: new sessionStore(redis), 
-    signed: true
-}, app));
+app.use(session(sessionConfig, app));
 
 //解析post请求参数中间件
 app.use(bodyParser({
@@ -64,15 +54,35 @@ app.use(async(ctx, next) => {
     logger.resLogger(ctx, ms)
 });
 
-//登录中间件
-app.use(async (ctx, next) => {
-    await login(ctx, next)
-});
-
 //静态资源中间件
 app.use(static(
     path.join( __dirname,  staticPath)
 ));
+
+//登录权限控制，cookie检查
+app.use(async (ctx, next) => {
+    const url = ['/login', '/logout'];
+
+    if (!ctx.session.userId && !url.includes(ctx.url)) {
+        ctx.body = {
+            code: 401,
+            message: "登录已过期，请重新登录"
+        };
+        return;
+    } else {
+        await next();
+    }
+});
+
+// 加载模板引擎
+app.use(views(path.join(__dirname, './view'), {
+    extension: 'ejs'
+}));
+
+//上传文件处理中间件
+app.use( async ( ctx, next ) => {
+    await upload(ctx, next); 
+});
 
 //加载路由
 app.use(routes());

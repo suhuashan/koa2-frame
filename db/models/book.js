@@ -1,13 +1,5 @@
-/*
- * @Author: your name
- * @Date: 2019-10-31 19:07:27
- * @LastEditTime: 2019-11-05 19:27:24
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \koa2-frame\db\models\book.js
- */
-var Sequelize = require("sequelize");
-var sequelize = require("../index.js");
+let Sequelize = require("sequelize");
+let sequelize = require("../index.js");
 
 const Book = sequelize.define(
     "book",

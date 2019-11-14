@@ -1,9 +1,3 @@
-/*
- * @Author: suhuashan
- * @Date: 2019-11-04 13:07:56
- * @LastEditTime: 2019-11-04 18:52:30
- * @LastEditors: Please set LastEditors
- */
 const fs = require('fs');
 const path = require('path');
 
@@ -14,18 +8,24 @@ const path = require('path');
 function addControllers(router) {
     // 先导入fs模块，然后用readdirSync列出文件
     // 这里可以用sync是因为启动时只运行一次，不存在性能问题:
-    let files = fs.readdirSync(path.resolve(__dirname, '../controllers'));
-
-    // 过滤出.js文件
-    let js_files = files.filter((f) => {
-        return f.endsWith('.js');
+    let dirs = fs.readdirSync(path.resolve(__dirname, '../controllers'));
+        
+    
+    dirs.forEach(item => {
+        let files = fs.readdirSync(path.resolve(__dirname, '../controllers/', item));
+        let js_files = files.filter((f) => {
+                return f.endsWith('.js');
+            });
+        for (let f of js_files) {
+            console.log(`process controller: ${f}...`);
+            let mapping = require(path.resolve(__dirname, '../controllers/', item, f));
+            addMapping(router, mapping);
+        }
     });
 
-    for (let f of js_files) {
-        console.log(`process controller: ${f}...`);
-        let mapping = require(path.resolve(__dirname, '../controllers/', f));
-        addMapping(router, mapping);
-    }
+
+
+
 }
 
 /**
